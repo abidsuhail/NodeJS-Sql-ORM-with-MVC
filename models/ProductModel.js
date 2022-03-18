@@ -1,7 +1,7 @@
 const TABLE_NAME = 'products'
-const CatModel = require('./CategoryModel')
+//const CatModel = require('./CategoryModel')
 let ProductModel = (sequelize, DataTypes) => {
-  let productModel = sequelize.define(
+  const productModel = sequelize.define(
     TABLE_NAME,
     {
       product_name: { type: DataTypes.STRING, allowNull: false },
@@ -9,11 +9,7 @@ let ProductModel = (sequelize, DataTypes) => {
     },
     { freezeTableName: true, timestamps: true }
   )
-  productModel.belongsTo(CatModel(sequelize, DataTypes), {
-    foreignKey: {
-      allowNull: false
-    }
-  })
+  
   return productModel
 }
 module.exports = ProductModel

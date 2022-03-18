@@ -1,10 +1,12 @@
 const TABLE_NAME = 'user'
 let UserModel = (sequelize, DataTypes) => {
- return sequelize.define(
+  return sequelize.define(
     TABLE_NAME,
     {
-      first_name: { type: DataTypes.STRING, allowNull: false },
-      lastname: { type: DataTypes.STRING, allowNull: false }
+      username: { type: DataTypes.STRING, allowNull: false, unique: true },
+      firstname: { type: DataTypes.STRING, allowNull: false },
+      password: { type: DataTypes.STRING, allowNull: false },
+      authtoken: { type: DataTypes.STRING, allowNull: false }
     },
     { freezeTableName: true }
   )

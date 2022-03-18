@@ -4,7 +4,37 @@ const getAllProducts = async (req, res) => {
   let message = 'success'
   let data = []
   try {
-    data = await models.products.findAll({})
+    data = await models.products.findAll({
+      /* include: [
+        {
+          model: models.categories,
+          attributes: ['cat_name']
+        }
+      ] */
+    })
+  } catch (e) {
+    message = e.message
+    error = 1
+  }
+  res.send({
+    error: error,
+    message: message,
+    data: data
+  })
+}
+const getAllProductsByCat = async (req, res) => {
+  let error = 0
+  let message = 'success'
+  let data = []
+  try {
+    data = await models.categories.findAll({
+      include: [
+        {
+          model: models.products,
+          attributes: ['product_name']
+        }
+      ]
+    })
   } catch (e) {
     message = e.message
     error = 1
@@ -56,5 +86,6 @@ const getProductsByCatId = async function (req, res) {
 module.exports = {
   getAllProducts,
   createProduct,
-  getProductsByCatId
+  getProductsByCatId,
+  getAllProductsByCat
 }
