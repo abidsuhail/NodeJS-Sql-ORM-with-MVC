@@ -4,6 +4,7 @@ const authMiddleware = async (req, res, next) => {
     const authtoken = req.headers['authorization'].split(' ')[1]
     const data = await models.users.findOne({ where: { authtoken: authtoken } })
     if (data != null) {
+      req.user = data
       next()
     } else {
       return res.send({

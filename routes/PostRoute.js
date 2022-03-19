@@ -1,5 +1,5 @@
 const express = require('express')
-const controller = require('../controllers/ProductController')
+const controller = require('../controllers/PostController')
 const router = express.Router()
 /* const bearerMiddleware = require('../middlewares/BearerAuthMiddleware')
 
@@ -10,10 +10,9 @@ router.use((req, res, next) => {
   next()
 }) */
 //<========================== ROUTES ===============================>
-router.get('/getAllProducts', controller.getAllProducts)
-router.get('/getAllProductsByCat', controller.getAllProductsByCat)
+router.get('/getAllPosts', controller.getAllPosts)
+router.post('/createPost', controller.createPost)
+router.get('/getAllPostsWithUser', controller.getAllPostsWithUser)
 
-router.post('/createProduct', controller.createProduct)
-router.post('/getProductsByCatId', controller.getProductsByCatId)
 //<========================== END ROUTES ===========================>
 module.exports = router

@@ -14,6 +14,8 @@ db.sequelize = sequelize
 db.categories = require('./CategoryModel')(sequelize, DataTypes)
 db.products = require('./ProductModel')(sequelize, DataTypes)
 db.users = require('./UserModel')(sequelize, DataTypes)
+db.posts = require('./PostModel')(sequelize, DataTypes)
+db.likes = require('./LikeModel')(sequelize, DataTypes)
 
 //==================RELATIONS===============================
 db.products.belongsTo(db.categories, {
@@ -22,6 +24,36 @@ db.products.belongsTo(db.categories, {
   }
 })
 db.categories.hasMany(db.products, {
+  foreignKey: {
+    allowNull: false
+  }
+})
+db.posts.belongsTo(db.users, {
+  foreignKey: {
+    allowNull: false
+  }
+})
+db.users.hasMany(db.posts, {
+  foreignKey: {
+    allowNull: false
+  }
+})
+db.likes.belongsTo(db.posts, {
+  foreignKey: {
+    allowNull: false
+  }
+})
+db.likes.belongsTo(db.users, {
+  foreignKey: {
+    allowNull: false
+  }
+})
+db.posts.hasMany(db.likes, {
+  foreignKey: {
+    allowNull: false
+  }
+})
+db.users.hasMany(db.likes, {
   foreignKey: {
     allowNull: false
   }

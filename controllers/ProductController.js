@@ -1,4 +1,5 @@
 const models = require('../models')
+
 const getAllProducts = async (req, res) => {
   let error = 0
   let message = 'success'
