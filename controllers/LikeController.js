@@ -30,8 +30,8 @@ module.exports = {
           {
             model: models.likes,
             required: true,
-            where: { userId: req.user.id },
-            attributes: []
+            where: { userId: req.user.id }
+            /* attributes: [] */
           }
         ]
       })

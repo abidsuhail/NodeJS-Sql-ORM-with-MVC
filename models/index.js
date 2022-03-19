@@ -40,11 +40,13 @@ db.users.hasMany(db.posts, {
 })
 db.likes.belongsTo(db.posts, {
   foreignKey: {
+    name: 'postId',
     allowNull: false
   }
 })
 db.likes.belongsTo(db.users, {
   foreignKey: {
+    name: 'userId',
     allowNull: false
   }
 })
