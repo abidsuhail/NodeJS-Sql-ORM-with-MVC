@@ -9,8 +9,6 @@ const app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 //=================ROUTES========================
-app.use('/api', require('./routes/ProductRoute'))
-app.use('/api', require('./routes/CatRoute'))
 app.use('/api', require('./routes/LoginRoute'))
 app.use('/api', require('./routes/PostRoute'))
 app.use('/api', require('./routes/LikeRoute'))

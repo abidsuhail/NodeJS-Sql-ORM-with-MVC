@@ -9,8 +9,8 @@ router.use((req, res, next) => {
 }) */
 //<========================== ROUTES ===============================>
 router.post('/sendLike', bearerMiddleware, controller.sendLike)
-router.get('/getLikesByUser', controller.getLikesByUser)
 router.get('/getMyLikesPosts', bearerMiddleware, controller.getMyLikesPosts)
+router.get('/getLikes', bearerMiddleware, controller.getLikes)
 
 //<========================== END ROUTES ===========================>
 module.exports = router

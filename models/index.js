@@ -1,66 +1,47 @@
-const { Sequelize, DataTypes } = require('sequelize')
-const sequelize = new Sequelize('abiddb', 'root', '@bid1294', {
-  host: 'localhost',
-  dialect: 'mysql'
-})
-sequelize
-  .authenticate()
-  .then(() => console.log('Connected!'))
-  .catch(err => console.log(err))
+'use strict'
 
+const fs = require('fs')
+const path = require('path')
+const Sequelize = require('sequelize')
+const basename = path.basename(__filename)
+const env = process.env.NODE_ENV || 'development'
+const config = require(__dirname + '/../config/config.json')[env]
 const db = {}
-db.Sequelize = Sequelize
+
+let sequelize
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config)
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  )
+}
+
+fs.readdirSync(__dirname)
+  .filter(file => {
+    return (
+      file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
+    )
+  })
+  .forEach(file => {
+    const model = require(path.join(__dirname, file))(
+      sequelize,
+      Sequelize.DataTypes
+    )
+    db[model.name] = model
+  })
+
+Object.keys(db).forEach(modelName => {
+  console.log(modelName)
+  if (db[modelName].associate) {
+    db[modelName].associate(db)
+  }
+})
+
 db.sequelize = sequelize
-db.categories = require('./CategoryModel')(sequelize, DataTypes)
-db.products = require('./ProductModel')(sequelize, DataTypes)
-db.users = require('./UserModel')(sequelize, DataTypes)
-db.posts = require('./PostModel')(sequelize, DataTypes)
-db.likes = require('./LikeModel')(sequelize, DataTypes)
+db.Sequelize = Sequelize
 
-//==================RELATIONS===============================
-db.products.belongsTo(db.categories, {
-  foreignKey: {
-    allowNull: false
-  }
-})
-db.categories.hasMany(db.products, {
-  foreignKey: {
-    allowNull: false
-  }
-})
-db.posts.belongsTo(db.users, {
-  foreignKey: {
-    allowNull: false
-  }
-})
-db.users.hasMany(db.posts, {
-  foreignKey: {
-    allowNull: false
-  }
-})
-db.likes.belongsTo(db.posts, {
-  foreignKey: {
-    name: 'postId',
-    allowNull: false
-  }
-})
-db.likes.belongsTo(db.users, {
-  foreignKey: {
-    name: 'userId',
-    allowNull: false
-  }
-})
-db.posts.hasMany(db.likes, {
-  foreignKey: {
-    allowNull: false
-  }
-})
-db.users.hasMany(db.likes, {
-  foreignKey: {
-    allowNull: false
-  }
-})
-//==================END RELATIONS===============================
-
-db.sequelize.sync({ force: false })
 module.exports = db
