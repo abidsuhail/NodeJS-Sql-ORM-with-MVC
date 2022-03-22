@@ -45,16 +45,22 @@ module.exports = {
       data: data
     })
   },
-  getMyLikesPosts: async (req, res) => {
+  getLikedUsersByPostId: async (req, res) => {
     let error = 0
     let message = 'success'
     let data = []
     try {
-      data = await models.Post.findAll({
-        where: {
-          userId: req.user.id
-        },
-        include: [{ model: models.Like, required: true, attributes: [] }]
+      data = await models.User.findAll({
+        attributes: {exclude:['password','authtoken','roles']},
+        include: [
+          {
+            model: models.Like,
+            required: true,
+            as: 'likes',
+            attributes:[],
+            where: { postId: req.body.postId }
+          }
+        ]
       })
     } catch (e) {
       message = e.message

@@ -7,13 +7,13 @@ module.exports = {
     let message = 'success'
     let data = []
     try {
+      const userIdEscaped = models.sequelize.escape(`${req.user.id}`)
       data = await models.Post.findAll({
         attributes: {
           include: [
-            //[Sequelize.where(Sequelize.col('likes.userId'), '=', req.user.id),"likedByMe"]
             [
               Sequelize.literal(
-                `(SELECT COUNT(*) FROM likes WHERE likes.userId=${req.user.id} AND likes.postId=Post.id)`
+                `(SELECT COUNT(*) FROM likes WHERE likes.userId=${userIdEscaped} AND likes.postId=Post.id)`
               ),
               'isLikedByMe'
             ],
@@ -23,7 +23,7 @@ module.exports = {
               ),
               'total_likes'
             ]
-            //[Sequelize.fn('COUNT', Sequelize.col('likes.postId')), 'likesCount']
+            //[Sequelize.and('COUNT', Sequelize.col('likes.postId')), 'likesCount']
             /* [
               //Sequelize.fn('COUNT',  Sequelize.where(Sequelize.col('likes.userId'), '=', req.user.id)),
               Sequelize.fn('COUNT',Sequelize.where(Sequelize.col('likes.userId'), '=', req.user.id)),

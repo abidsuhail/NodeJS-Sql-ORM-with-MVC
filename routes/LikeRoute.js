@@ -9,7 +9,7 @@ router.use((req, res, next) => {
 }) */
 //<========================== ROUTES ===============================>
 router.post('/sendLike', bearerMiddleware, controller.sendLike)
-router.get('/getMyLikesPosts', bearerMiddleware, controller.getMyLikesPosts)
+router.post('/getLikedUsersByPostId', bearerMiddleware, controller.getLikedUsersByPostId)
 router.get('/getLikes', bearerMiddleware, controller.getLikes)
 
 //<========================== END ROUTES ===========================>
